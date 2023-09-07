@@ -9,10 +9,11 @@
         <v-table fixed-header height="300px" density="comfortable">
           <thead>
             <tr>
-              <th class="text-left">Numéro du vol</th>
-              <th class="text-left">Lieu de départ</th>
-              <th class="text-left">Lieu d'arrivée</th>
-              <th class="text-left">Action</th>
+              <th class="header-flights">Numéro du vol</th>
+              <th class="header-flights">Lieu de départ</th>
+              <th class="header-flights">Lieu d'arrivée</th>
+              <th class="header-flights">Price</th>
+              <th class="header-flights">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -20,7 +21,15 @@
               <td>{{ item.id }}</td>
               <td>{{ item.airportDeparture }}</td>
               <td>{{ item.airportArrival }}</td>
-              <td><v-btn variant="outlined" @click="bookFlight(item.id, 'rathesh')"> Réserver </v-btn></td>
+              <td>{{ item.price }} €</td>
+              <td>
+                <v-btn
+                  variant="outlined"
+                  @click="bookFlight(item.id, 'rathesh')"
+                >
+                  Réserver
+                </v-btn>
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -30,8 +39,8 @@
 </template>
 
 <script>
-import getFlight from "~/core/action/flight"; // Remplacez '@/actions/' par le chemin relatif approprié
-import axios from 'axios';
+import { flightService } from "@/core/api/indexService";
+
 export default {
   name: "IndexPage",
   data() {
@@ -40,32 +49,18 @@ export default {
       books: [],
     };
   },
-   mounted() {
-    axios.get('http://localhost:8080/flights')
-      .then((response) => {
-        //console.log(response.data);
-        this.vols = response.data;
-      })
-      .catch((error) => {
-        console.log(error)
-        console.error('Une erreur s\'est produite lors de la récupération des données de l\'API :', error);
-      });
+  async mounted() {
+    this.vols = await flightService.getAllFights();
   },
-  methods:{
-     bookFlight(id, user) {
-        console.log(id);
-        console.log(user);
-        axios.post('http://localhost:8080/book', { userId: user, flightId: id })
-      .then((response) => {
-        console.log(response.data);
-        this.books = response.data;
-      })
-      .catch((error) => {
-        console.log(error)
-        console.error('Une erreur s\'est produite lors de la récupération des données de l\'API :', error);
-      });
+  methods: {
+    async bookFlight(id, user) {
+      const data = {
+        userId: user,
+        flightId: id,
+      };
+      this.books = await flightService.bookFlight(data);
     },
-  }
+  },
 };
 </script>
 
@@ -77,7 +72,12 @@ export default {
   justify-content: center;
 }
 
-th{
+th {
   width: 300px;
+}
+
+.header-flights{
+  text-align: left;
+  width: 400px;
 }
 </style>
