@@ -30,11 +30,15 @@
 </template>
 
 <script>
-import getFlight from "~/core/action/flight"; // Remplacez '@/actions/' par le chemin relatif approprié
+import { flightService } from "@/core/api/indexService";
 
 export default {
   name: "IndexPage",
 
+  async created() {
+    const getFlight = await flightService.getAllFights();
+    await flightService.bookFlight(data);
+  },
   data() {
     return {
       vols: [
@@ -67,7 +71,7 @@ export default {
   justify-content: center;
 }
 
-th{
+th {
   width: 300px;
 }
 </style>
