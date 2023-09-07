@@ -10,8 +10,8 @@
           <thead>
             <tr>
               <th class="text-left">Numéro du vol</th>
-              <th class="text-left">Date de départ</th>
-              <th class="text-left">Date d'arrivée</th>
+              <th class="text-left">Lieu de départ</th>
+              <th class="text-left">Lieu d'arrivée</th>
               <th class="text-left">Action</th>
             </tr>
           </thead>
@@ -20,7 +20,7 @@
               <td>{{ item.id }}</td>
               <td>{{ item.airportDeparture }}</td>
               <td>{{ item.airportArrival }}</td>
-              <td><v-btn variant="outlined"> Réserver </v-btn></td>
+              <td><v-btn variant="outlined" @click="bookFlight(item.id, 'rathesh')"> Réserver </v-btn></td>
             </tr>
           </tbody>
         </v-table>
@@ -31,31 +31,41 @@
 
 <script>
 import getFlight from "~/core/action/flight"; // Remplacez '@/actions/' par le chemin relatif approprié
-
+import axios from 'axios';
 export default {
   name: "IndexPage",
-
   data() {
     return {
-      vols: [
-        {
-          id: 1,
-          airportDeparture: "02 Septembre 2023",
-          airportArrival: "04 Octobre 2023",
-        },
-        {
-          id: 2,
-          airportDeparture: "05 Septembre 2023",
-          airportArrival: "10 Octobre 2023",
-        },
-        {
-          id: 3,
-          airportDeparture: "15 Septembre 2023",
-          airportArrival: "20 Octobre 2023",
-        },
-      ],
+      vols: [],
+      books: [],
     };
   },
+   mounted() {
+    axios.get('http://localhost:8080/flights')
+      .then((response) => {
+        //console.log(response.data);
+        this.vols = response.data;
+      })
+      .catch((error) => {
+        console.log(error)
+        console.error('Une erreur s\'est produite lors de la récupération des données de l\'API :', error);
+      });
+  },
+  methods:{
+     bookFlight(id, user) {
+        console.log(id);
+        console.log(user);
+        axios.post('http://localhost:8080/book', { userId: user, flightId: id })
+      .then((response) => {
+        console.log(response.data);
+        this.books = response.data;
+      })
+      .catch((error) => {
+        console.log(error)
+        console.error('Une erreur s\'est produite lors de la récupération des données de l\'API :', error);
+      });
+    },
+  }
 };
 </script>
 
