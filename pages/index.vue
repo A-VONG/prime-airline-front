@@ -27,66 +27,38 @@
           variant="outlined"
         ></v-select>
       </v-col>
-      <v-col v-if="!showPromotion">
-        <v-card>
-          <v-card-title class="headline">
-            Liste des vols disponnibles pour le {{ dateTraitement(datePicker) }}
-          </v-card-title>
-
-          <table fixed-header height="300px" density="comfortable">
-            <thead>
-              <tr>
-                <th class="header-flights" id="IdFlight">Numéro du vol</th>
-                <th class="header-flights" id="Depart">Lieu de départ</th>
-                <th class="header-flights" id="Arrival">Lieu d'arrivée</th>
-                <th class="header-flights" id="Price">Prix</th>
-                <th class="header-flights" id="Discount">Réduction</th>
-                <th class="header-flights" id="Place">Place restant</th>
-                <th class="header-flights" id="Buy">Action</th>
-                <th class="header-flights" id="Discount">Promotion</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in vols" :key="item.id">
-                <td class="td-flight">{{ item.id }}</td>
-                <td class="td-flight">{{ item.airportDeparture }}</td>
-                <td class="td-flight">{{ item.airportArrival }}</td>
-                <td class="td-flight">{{ item.price }} {{ actualCurrency }}</td>
-                <td class="td-flight">{{ item.discount }}</td>
-                <td class="td-flight">{{ item.seats }}</td>
-                <td class="td-flight">
-                  <v-btn
-                    v-if="item.seats > 0"
-                    variant="outlined"
-                    @click="bookFlight(item.id, 'rathesh')"
-                  >
-                    Réserver
-                  </v-btn>
-                </td>
-                <td class="td-flight">
-                  <v-btn
-                    variant="outlined"
-                    v-if="item.discounts.length > 0"
-                    @click="clickShowPromotion"
-                  >
-                    Promotion
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </v-card>
+      <v-col v-if="showPromotion">
+        <FlightDiscountComposant
+          :key="incrementFlightComponent"
+          :datePicker="datePicker"
+          :actualCurrency="actualCurrency"
+          :vols="vols"
+          :indexOfFlight="indexOfFlightdiscount"
+        />
       </v-col>
-      <v-btn @click="selectAnotherDate"> Selectionner une autre date </v-btn>
+      <v-col v-if="!showPromotion">
+        <FlightComposant
+          :key="incrementFlightComponent"
+          :datePicker="datePicker"
+          :actualCurrency="actualCurrency"
+          :vols="vols"
+        />
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
 import { flightService } from "@/core/api/indexService";
+import FlightComposant from "@/components/Flight.vue";
+import FlightDiscountComposant from "@/components/FlightDiscount.vue";
 
 export default {
   name: "IndexPage",
+  components: {
+    FlightComposant,
+    FlightDiscountComposant,
+  },
   data() {
     return {
       selectDate: false,
@@ -97,6 +69,8 @@ export default {
       currenciesList: [],
       actualCurrency: "USD",
       showPromotion: false,
+      incrementFlightComponent: 1,
+      indexOfFlightdiscount: null,
     };
   },
   async mounted() {
@@ -104,36 +78,38 @@ export default {
     await flightService.getCurrencies().then((response) => {
       this.currenciesList = response;
     });
+
+    this.$nuxt.$on("BookFlight", async (val) => {
+      if (val) {
+        this.vols = await flightService.getAllFights(this.actualCurrency);
+        this.incrementFlightComponent++;
+      }
+    });
+    this.$nuxt.$on("FlightDiscount", async (indexOfFlightdiscount) => {
+      this.showPromotion = true;
+      this.indexOfFlightdiscount = indexOfFlightdiscount;
+      this.incrementFlightComponent++;
+    });
+    this.$nuxt.$on("AnotherDate", () => {
+      this.datePicker = null;
+      this.selectDate = false;
+    });
+
+    this.$nuxt.$on("getBack", () => {
+      this.showPromotion = false;
+    });
     console.log(this.vols);
   },
   methods: {
-    async bookFlight(id, user) {
-      const data = {
-        userId: user,
-        flightId: id,
-      };
-      this.books = await flightService.bookFlight(data);
-      this.vols = await flightService.getAllFights(this.actualCurrency);
-    },
     dateClick() {
       if (!this.datePicker) {
         this.datePicker = new Date().toLocaleDateString();
       }
       this.selectDate = true;
     },
-    dateTraitement(date) {
-      let useDate = new Date(date);
-      return useDate.toLocaleDateString("fr");
-    },
+
     async refreshCurrency() {
       this.vols = await flightService.getAllFights(this.actualCurrency);
-    },
-    selectAnotherDate() {
-      this.datePicker = null;
-      this.selectDate = false;
-    },
-    clickShowPromotion() {
-      this.showPromotion = true;
     },
   },
 };

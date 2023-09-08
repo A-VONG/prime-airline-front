@@ -2,53 +2,52 @@
   <div>
     <v-card>
       <v-card-title class="headline">
-        Liste des vols disponnibles pour le {{ dateTraitement(datePicker) }}
+        La liste des promotions pour le {{ dateTraitement(datePicker) }}
       </v-card-title>
 
       <table fixed-header height="300px" density="comfortable">
         <thead>
           <tr>
-            <th class="header-flights" id="IdFlight">Numéro du vol</th>
             <th class="header-flights" id="Depart">Lieu de départ</th>
+            <th class="header-flights" id="Depart">Escale</th>
             <th class="header-flights" id="Arrival">Lieu d'arrivée</th>
             <th class="header-flights" id="Price">Price</th>
             <th class="header-flights" id="Place">Place restant</th>
+            <th class="header-flights" id="Discount">Promotion</th>
             <th class="header-flights" id="Buy">Action</th>
-            <th class="header-flights" id="Discount">Vol avec escale</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in vols" :key="item.id">
-            <td class="td-flight">{{ item.id }}</td>
-            <td class="td-flight">{{ item.airportDeparture }}</td>
-            <td class="td-flight">{{ item.airportArrival }}</td>
-            <td class="td-flight">{{ item.price }} {{ actualCurrency }}</td>
-            <td class="td-flight">{{ item.seats }}</td>
+          <tr
+            v-for="flightDiscount in discountFlight?.discounts"
+            :key="flightDiscount.id"
+          >
             <td class="td-flight">
-              <v-btn
-                v-if="item.seats > 0"
-                variant="outlined"
-                @click="bookFlight(item.id, 'rathesh')"
-              >
-                Réserver
-              </v-btn>
+              {{ flightDiscount.flight.airportDeparture }}
+            </td>
+            <td class="td-flight">{{ flightDiscount.escale }}</td>
+            <td class="td-flight">
+              {{ flightDiscount.flight.airportArrival }}
             </td>
             <td class="td-flight">
+              {{ flightDiscount.flight.price }} {{ actualCurrency }}
+            </td>
+            <td class="td-flight">{{ flightDiscount.flight.seats }}</td>
+            <td class="td-flight">{{ flightDiscount.percent * 100 }} %</td>
+            <td class="td-flight">
               <v-btn
+                v-if="flightDiscount.flight.seats > 0"
                 variant="outlined"
-                v-if="item.discounts.length > 0"
-                @click="clickShowPromotion(index)"
+                @click="bookFlight(flightDiscount.flight.id, 'rathesh')"
               >
-                Promotion
+                Réserver
               </v-btn>
             </td>
           </tr>
         </tbody>
       </table>
     </v-card>
-    <v-btn class="btnfullWidth" @click="selectAnotherDate">
-      Selectionner une autre date
-    </v-btn>
+    <v-btn class="btnfullWidth" @click="getBack()"> Retour en arriere </v-btn>
   </div>
 </template>
 
@@ -70,6 +69,18 @@ export default {
       type: String,
       default: "USD",
     },
+    indexOfFlight: {
+      type: Number,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      discountFlight: null,
+    };
+  },
+  mounted() {
+    this.discountFlight = this.vols[this.indexOfFlight];
   },
   methods: {
     dateTraitement(date) {
@@ -81,14 +92,14 @@ export default {
         userId: user,
         flightId: id,
       };
-      this.books = await flightService.bookFlight(data);
       this.$nuxt.$emit("BookFlight", true);
+      this.books = await flightService.bookFlight(data);
     },
-    clickShowPromotion(idVol) {
-      this.$nuxt.$emit("FlightDiscount", idVol);
+    clickShowPromotion() {
+      this.showPromotion = true;
     },
-    selectAnotherDate() {
-      this.$nuxt.$emit("AnotherDate");
+    getBack() {
+      this.$nuxt.$emit("getBack");
     },
   },
 };
@@ -102,6 +113,9 @@ export default {
   justify-content: center;
   margin-bottom: 15px;
 }
+.btnfullWidth {
+  width: 100%;
+}
 
 th {
   width: 300px;
@@ -114,8 +128,5 @@ th {
 
 .td-flight {
   text-align: center;
-}
-.btnfullWidth {
-  width: 100%;
 }
 </style>
