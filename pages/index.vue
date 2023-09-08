@@ -39,7 +39,8 @@
                 <th class="header-flights" id="IdFlight">Numéro du vol</th>
                 <th class="header-flights" id="Depart">Lieu de départ</th>
                 <th class="header-flights" id="Arrival">Lieu d'arrivée</th>
-                <th class="header-flights" id="Price">Price</th>
+                <th class="header-flights" id="Price">Prix</th>
+                <th class="header-flights" id="Discount">Réduction</th>
                 <th class="header-flights" id="Place">Place restant</th>
                 <th class="header-flights" id="Buy">Action</th>
               </tr>
@@ -50,6 +51,7 @@
                 <td class="td-flight">{{ item.airportDeparture }}</td>
                 <td class="td-flight">{{ item.airportArrival }}</td>
                 <td class="td-flight">{{ item.price }} {{ actualCurrency }} </td>
+                <td class="td-flight">{{ item.discount }}  </td>
                 <td class="td-flight">{{ item.seats }}</td>
                 <td class="td-flight">
                   <v-btn
@@ -65,6 +67,7 @@
           </table>
         </v-card>
       </v-col>
+      <v-btn @click="selectAnotherDate" > Selectionner une autre date </v-btn>
     </v-row>
   </div>
 </template>
@@ -113,6 +116,10 @@ export default {
     },
     async refreshCurrency() {
       this.vols = await flightService.getAllFights(this.actualCurrency);
+    },
+    selectAnotherDate(){
+      this.datePicker = null;
+      this.selectDate = false;
     }
   },
 };
