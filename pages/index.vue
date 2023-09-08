@@ -18,6 +18,14 @@
       align="center"
     >
       <v-col>
+        <v-select
+          class="currenciesSelect"
+          label="Selectionnez votre devise"
+          :items="currenciesList"
+          variant="outlined"
+        ></v-select>
+      </v-col>
+      <v-col>
         <v-card>
           <v-card-title class="headline">
             Liste des vols disponnibles pour le {{ dateTraitement(datePicker) }}
@@ -71,6 +79,7 @@ export default {
       books: [],
       datePicker: null,
       minDate: new Date().toISOString().substr(0, 10),
+      currenciesList: ["FR - €", "EN - $"],
     };
   },
   async mounted() {
@@ -124,5 +133,12 @@ th {
 }
 .td-flight {
   text-align: center;
+}
+.selectDateDiv{
+  display: flex;
+  flex-direction: column;
+}
+.currenciesSelect{
+  width: 250px;
 }
 </style>
