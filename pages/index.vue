@@ -22,6 +22,7 @@
           class="currenciesSelect"
           label="Selectionnez votre devise"
           :items="currenciesList"
+          v-model="actualCurrency"
           variant="outlined"
         ></v-select>
       </v-col>
@@ -80,6 +81,7 @@ export default {
       datePicker: null,
       minDate: new Date().toISOString().substr(0, 10),
       currenciesList: ["FR - €", "EN - $"],
+      actualCurrency: "FR - €"
     };
   },
   async mounted() {
