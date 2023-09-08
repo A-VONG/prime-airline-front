@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { flightService } from "@/core/api/indexService";
-
 export default {
   name: "ModalOptionFlight",
   props: {
@@ -43,14 +41,11 @@ export default {
   },
   methods: {
     async confirmBook() {
-      console.log(this.optionModal);
       const data = {
         userId: "Takoo",
         flightId: this.optionModal.id,
       };
-      this.$nuxt.$emit("BookFlightWithOption", "foodfutur");
-
-      await flightService.bookFlight(data);
+      this.$nuxt.$emit("BookFlightWithOption", "data", data);
     },
   },
 };

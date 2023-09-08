@@ -93,7 +93,6 @@ export default {
       this.incrementFlightComponent++;
       this.modalOfFlightOption = true;
       this.modalOfIndexFlight = val;
-      console.log(val);
       this.modalIncrement++;
     });
     this.$nuxt.$on("FlightDiscount", async (indexOfFlightdiscount) => {
@@ -105,7 +104,8 @@ export default {
       this.datePicker = null;
       this.selectDate = false;
     });
-    this.$nuxt.$emit("BookFlightWithOption", async (food) => {
+    this.$nuxt.$on("BookFlightWithOption", async (food, data) => {
+      await flightService.bookFlight(data);
       this.vols = await flightService.getAllFights(this.actualCurrency);
       this.incrementFlightComponent++;
       this.modalOfFlightOption = false;

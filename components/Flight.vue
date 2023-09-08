@@ -53,8 +53,6 @@
 </template>
 
 <script>
-import { flightService } from "@/core/api/indexService";
-
 export default {
   name: "Flight",
   props: {
