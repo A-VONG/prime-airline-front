@@ -28,7 +28,7 @@
               <v-btn
                 v-if="item.seats > 0"
                 variant="outlined"
-                @click="bookFlight(item.id, 'rathesh')"
+                @click="bookFlight(index)"
               >
                 Réserver
               </v-btn>
@@ -76,13 +76,8 @@ export default {
       let useDate = new Date(date);
       return useDate.toLocaleDateString("fr");
     },
-    async bookFlight(id, user) {
-      const data = {
-        userId: user,
-        flightId: id,
-      };
-      this.books = await flightService.bookFlight(data);
-      this.$nuxt.$emit("BookFlight", true);
+    async bookFlight(indexOfFlight) {
+      this.$nuxt.$emit("BookFlight", indexOfFlight);
     },
     clickShowPromotion(idVol) {
       this.$nuxt.$emit("FlightDiscount", idVol);

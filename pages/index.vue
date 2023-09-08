@@ -1,5 +1,10 @@
 <template>
   <div>
+    <FlightOptionModal
+      :key="modalIncrement"
+      :optionModal="vols[modalOfIndexFlight]"
+      :modal="modalOfFlightOption"
+    />
     <div v-if="!selectDate">
       <v-form class="spaceDatePicker">
         <v-date-picker
@@ -52,12 +57,14 @@
 import { flightService } from "@/core/api/indexService";
 import FlightComposant from "@/components/Flight.vue";
 import FlightDiscountComposant from "@/components/FlightDiscount.vue";
+import FlightOptionModal from "@/components/modals/FlightOptionModal.vue";
 
 export default {
   name: "IndexPage",
   components: {
     FlightComposant,
     FlightDiscountComposant,
+    FlightOptionModal,
   },
   data() {
     return {
@@ -71,6 +78,9 @@ export default {
       showPromotion: false,
       incrementFlightComponent: 1,
       indexOfFlightdiscount: null,
+      modalOfFlightOption: false,
+      modalIncrement: 1,
+      modalOfIndexFlight: 0,
     };
   },
   async mounted() {
@@ -80,10 +90,11 @@ export default {
     });
 
     this.$nuxt.$on("BookFlight", async (val) => {
-      if (val) {
-        this.vols = await flightService.getAllFights(this.actualCurrency);
-        this.incrementFlightComponent++;
-      }
+      this.incrementFlightComponent++;
+      this.modalOfFlightOption = true;
+      this.modalOfIndexFlight = val;
+      console.log(val);
+      this.modalIncrement++;
     });
     this.$nuxt.$on("FlightDiscount", async (indexOfFlightdiscount) => {
       this.showPromotion = true;
@@ -94,7 +105,12 @@ export default {
       this.datePicker = null;
       this.selectDate = false;
     });
-
+    this.$nuxt.$emit("BookFlightWithOption", async (food) => {
+      this.vols = await flightService.getAllFights(this.actualCurrency);
+      this.incrementFlightComponent++;
+      this.modalOfFlightOption = false;
+      this.modalIncrement++;
+    });
     this.$nuxt.$on("getBack", () => {
       this.showPromotion = false;
     });
