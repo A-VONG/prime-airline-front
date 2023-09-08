@@ -23,6 +23,7 @@
           label="Selectionnez votre devise"
           :items="currenciesList"
           v-model="actualCurrency"
+          @change="refreshCurrency"
           variant="outlined"
         ></v-select>
       </v-col>
@@ -48,7 +49,7 @@
                 <td class="td-flight">{{ item.id }}</td>
                 <td class="td-flight">{{ item.airportDeparture }}</td>
                 <td class="td-flight">{{ item.airportArrival }}</td>
-                <td class="td-flight">{{ item.price }} €</td>
+                <td class="td-flight">{{ item.price }} {{ actualCurrency }} </td>
                 <td class="td-flight">{{ item.seats }}</td>
                 <td class="td-flight">
                   <v-btn
@@ -80,12 +81,15 @@ export default {
       books: [],
       datePicker: null,
       minDate: new Date().toISOString().substr(0, 10),
-      currenciesList: ["FR - €", "EN - $"],
-      actualCurrency: "FR - €"
+      currenciesList: [],
+      actualCurrency: "USD",
     };
-  },
+  }, 
   async mounted() {
-    this.vols = await flightService.getAllFights();
+    this.vols = await flightService.getAllFights(this.actualCurrency);
+     await flightService.getCurrencies().then( (response) => {
+        this.currenciesList = response;
+      } );
     console.log(this.vols);
   },
   methods: {
@@ -95,7 +99,7 @@ export default {
         flightId: id,
       };
       this.books = await flightService.bookFlight(data);
-      this.vols = await flightService.getAllFights();
+      this.vols = await flightService.getAllFights(this.actualCurrency);
     },
     dateClick() {
       if (!this.datePicker) {
@@ -107,6 +111,9 @@ export default {
       let useDate = new Date(date);
       return useDate.toLocaleDateString("fr");
     },
+    async refreshCurrency() {
+      this.vols = await flightService.getAllFights(this.actualCurrency);
+    }
   },
 };
 </script>
