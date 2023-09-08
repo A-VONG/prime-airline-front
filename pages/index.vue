@@ -27,7 +27,7 @@
           variant="outlined"
         ></v-select>
       </v-col>
-      <v-col>
+      <v-col v-if="!showPromotion">
         <v-card>
           <v-card-title class="headline">
             Liste des vols disponnibles pour le {{ dateTraitement(datePicker) }}
@@ -43,6 +43,7 @@
                 <th class="header-flights" id="Discount">Réduction</th>
                 <th class="header-flights" id="Place">Place restant</th>
                 <th class="header-flights" id="Buy">Action</th>
+                <th class="header-flights" id="Discount">Promotion</th>
               </tr>
             </thead>
             <tbody>
@@ -50,8 +51,8 @@
                 <td class="td-flight">{{ item.id }}</td>
                 <td class="td-flight">{{ item.airportDeparture }}</td>
                 <td class="td-flight">{{ item.airportArrival }}</td>
-                <td class="td-flight">{{ item.price }} {{ actualCurrency }} </td>
-                <td class="td-flight">{{ item.discount }}  </td>
+                <td class="td-flight">{{ item.price }} {{ actualCurrency }}</td>
+                <td class="td-flight">{{ item.discount }}</td>
                 <td class="td-flight">{{ item.seats }}</td>
                 <td class="td-flight">
                   <v-btn
@@ -62,12 +63,21 @@
                     Réserver
                   </v-btn>
                 </td>
+                <td class="td-flight">
+                  <v-btn
+                    variant="outlined"
+                    v-if="item.discounts.length > 0"
+                    @click="clickShowPromotion"
+                  >
+                    Promotion
+                  </v-btn>
+                </td>
               </tr>
             </tbody>
           </table>
         </v-card>
       </v-col>
-      <v-btn @click="selectAnotherDate" > Selectionner une autre date </v-btn>
+      <v-btn @click="selectAnotherDate"> Selectionner une autre date </v-btn>
     </v-row>
   </div>
 </template>
@@ -86,13 +96,14 @@ export default {
       minDate: new Date().toISOString().substr(0, 10),
       currenciesList: [],
       actualCurrency: "USD",
+      showPromotion: false,
     };
-  }, 
+  },
   async mounted() {
     this.vols = await flightService.getAllFights(this.actualCurrency);
-     await flightService.getCurrencies().then( (response) => {
-        this.currenciesList = response;
-      } );
+    await flightService.getCurrencies().then((response) => {
+      this.currenciesList = response;
+    });
     console.log(this.vols);
   },
   methods: {
@@ -117,10 +128,13 @@ export default {
     async refreshCurrency() {
       this.vols = await flightService.getAllFights(this.actualCurrency);
     },
-    selectAnotherDate(){
+    selectAnotherDate() {
       this.datePicker = null;
       this.selectDate = false;
-    }
+    },
+    clickShowPromotion() {
+      this.showPromotion = true;
+    },
   },
 };
 </script>
@@ -150,11 +164,11 @@ th {
 .td-flight {
   text-align: center;
 }
-.selectDateDiv{
+.selectDateDiv {
   display: flex;
   flex-direction: column;
 }
-.currenciesSelect{
+.currenciesSelect {
   width: 250px;
 }
 </style>
