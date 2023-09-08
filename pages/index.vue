@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!selectDate" @click:save="dateClick()">
+    <div v-if="!selectDate">
       <v-form class="spaceDatePicker">
         <v-date-picker
           color="secondary"
@@ -109,7 +109,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .headline {
   display: flex;
   flex-direction: row;
