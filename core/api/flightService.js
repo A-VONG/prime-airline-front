@@ -23,8 +23,17 @@ let getCurrencies = () => {
     })
     .catch((err) => console.log(err));
 };
+
+let signinNewAccount = (account) => {
+  return Axios.post("/signin", account)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
 export const flightService = {
   getAllFights,
   bookFlight,
   getCurrencies,
+  signinNewAccount,
 };

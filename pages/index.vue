@@ -79,6 +79,7 @@ export default {
     FlightDiscountComposant,
     FlightOptionModal,
   },
+  middleware: "middleware",
   data() {
     return {
       selectDate: false,
