@@ -1,55 +1,68 @@
 <template>
   <div>
-    <FlightOptionModal
-      :key="modalIncrement"
-      :optionModal="vols[modalOfIndexFlight]"
-      :modal="modalOfFlightOption"
-    />
-    <div v-if="!selectDate">
-      <v-form class="spaceDatePicker">
-        <v-date-picker
-          color="secondary"
-          v-model="datePicker"
-          :min="minDate"
-          header="Veuillez choisir votre date"
-        ></v-date-picker>
-        <v-btn @click="dateClick()"> Je choisi cette date</v-btn>
-      </v-form>
+    <div v-if="vols">
+      <FlightOptionModal
+        :key="modalIncrement"
+        :optionModal="vols[modalOfIndexFlight]"
+        :modal="modalOfFlightOption"
+      />
+      <div v-if="!selectDate">
+        <v-form class="spaceDatePicker">
+          <v-date-picker
+            color="secondary"
+            v-model="datePicker"
+            :min="minDate"
+            header="Veuillez choisir votre date"
+          ></v-date-picker>
+          <v-btn @click="dateClick()"> Je choisi cette date</v-btn>
+        </v-form>
+      </div>
+      <v-row
+        v-if="selectDate && vols"
+        class="selectDateDiv"
+        justify="center"
+        align="center"
+      >
+        <v-col>
+          <v-select
+            class="currenciesSelect"
+            label="Selectionnez votre devise"
+            :items="currenciesList"
+            v-model="actualCurrency"
+            @change="refreshCurrency"
+            variant="outlined"
+          ></v-select>
+        </v-col>
+        <v-col v-if="showPromotion">
+          <FlightDiscountComposant
+            :key="incrementFlightComponent"
+            :datePicker="datePicker"
+            :actualCurrency="actualCurrency"
+            :vols="vols"
+            :indexOfFlight="indexOfFlightdiscount"
+          />
+        </v-col>
+        <v-col v-if="!showPromotion">
+          <FlightComposant
+            :key="incrementFlightComponent"
+            :datePicker="datePicker"
+            :actualCurrency="actualCurrency"
+            :vols="vols"
+          />
+        </v-col>
+      </v-row>
     </div>
-    <v-row
-      v-if="selectDate"
-      class="selectDateDiv"
-      justify="center"
-      align="center"
-    >
-      <v-col>
-        <v-select
-          class="currenciesSelect"
-          label="Selectionnez votre devise"
-          :items="currenciesList"
-          v-model="actualCurrency"
-          @change="refreshCurrency"
-          variant="outlined"
-        ></v-select>
-      </v-col>
-      <v-col v-if="showPromotion">
-        <FlightDiscountComposant
-          :key="incrementFlightComponent"
-          :datePicker="datePicker"
-          :actualCurrency="actualCurrency"
-          :vols="vols"
-          :indexOfFlight="indexOfFlightdiscount"
+    <div v-else>
+      <div class="divContainerErreur">
+        Oh no ! On ne trouve pas de vols disponibles, nous somme entrain
+        d'investigé, veuillez réessayer utérieurement
+        <img
+          class="imgSadEmoji"
+          src="~/static/Sad-emoji.webp"
+          alt="emoji triste"
         />
-      </v-col>
-      <v-col v-if="!showPromotion">
-        <FlightComposant
-          :key="incrementFlightComponent"
-          :datePicker="datePicker"
-          :actualCurrency="actualCurrency"
-          :vols="vols"
-        />
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -132,6 +145,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.divContainerErreur {
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.imgSadEmoji {
+  margin-top: 5%;
+  width: 30%;
+}
 .headline {
   display: flex;
   flex-direction: row;

@@ -33,7 +33,7 @@
               {{ flightDiscount.flight.price }} {{ actualCurrency }}
             </td>
             <td class="td-flight">{{ flightDiscount.flight.seats }}</td>
-            <td class="td-flight">{{ flightDiscount.percent * 100 }} %</td>
+            <td class="td-flight">{{ flightDiscount.percent }} %</td>
             <td class="td-flight">
               <v-btn
                 v-if="flightDiscount.flight.seats > 0"
