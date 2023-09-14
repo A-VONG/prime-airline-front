@@ -141,7 +141,6 @@ export default {
       this.selectDate = true;
     },
     async bookFlight(data) {
-      console.log("cc");
       if (!this.datePicker) {
         const bookFlight = { ...data, date: new Date().toLocaleDateString() };
         await flightService.bookFlight(bookFlight);
