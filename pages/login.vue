@@ -3,8 +3,11 @@
     <v-col class="text-center">
       <p>
         <Inscription v-if="signin" />
-        <v-btn v-if="!signin" @click="signin = !signin"> signin </v-btn>
-        <v-btn v-if="!signin" @click="login = !login"> login </v-btn>
+        <Connexion v-if="login" />
+        <div v-if="!signin && !login">
+            <v-btn @click="signin = !signin"> signin </v-btn>
+            <v-btn @click="login = !login"> login </v-btn>
+        </div>
       </p>
     </v-col>
   </v-row>
@@ -12,6 +15,7 @@
 
 <script>
 import Inscription from "@/components/Inscription.vue";
+import Connexion from "@/components/Connexion.vue";
 
 export default {
   name: "login",
