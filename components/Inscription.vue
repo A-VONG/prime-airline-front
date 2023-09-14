@@ -48,7 +48,7 @@ export default {
     },
     async signin() {
       let createAccount = {
-        email: this.email,
+        email: this.email.toLowerCase(),
         password: this.password,
         name: this.username,
       };

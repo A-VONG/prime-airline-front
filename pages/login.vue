@@ -22,13 +22,7 @@ export default {
   components: {
     Inscription,
   },
-  methods: {
-    log() {
-      this.$store.commit("account/setAccount", "J'ai crée un comtpe!!");
-      this.$router.push("/");
-      return;
-    },
-  },
+  
   created() {
     this.$nuxt.$on("getBack", (val) => {
       if (val === "signin") {
