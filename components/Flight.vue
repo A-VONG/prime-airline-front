@@ -71,8 +71,12 @@ export default {
   },
   methods: {
     dateTraitement(date) {
-      let useDate = new Date(date);
-      return useDate.toLocaleDateString("fr");
+      if (!date) {
+        return new Date().toLocaleDateString("fr");
+      } else {
+        let useDate = new Date(date);
+        return useDate.toLocaleDateString("fr");
+      }
     },
     async bookFlight(indexOfFlight) {
       this.$nuxt.$emit("BookFlight", indexOfFlight);

@@ -1,7 +1,7 @@
 import Axios from "./callService";
 
-let getAllFights = (currency) => {
-  return Axios.get("/flights?currency=" + currency)
+let getAllFights = (currency, date) => {
+  return Axios.get(`/flights?currency=${currency}&date=${date}`)
     .then((res) => {
       return res.data;
     })

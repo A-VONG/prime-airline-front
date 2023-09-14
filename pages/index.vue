@@ -97,7 +97,13 @@ export default {
     };
   },
   async mounted() {
-    this.vols = await flightService.getAllFights(this.actualCurrency);
+    const nowDate = new Date();
+    let finalDate = nowDate.toLocaleDateString("fr");
+
+    this.vols = await flightService.getAllFights(
+      this.actualCurrency,
+      finalDate
+    );
     await flightService.getCurrencies().then((response) => {
       this.currenciesList = response;
     });
@@ -118,8 +124,8 @@ export default {
       this.selectDate = false;
     });
     this.$nuxt.$on("BookFlightWithOption", async (food, data) => {
-      await flightService.bookFlight(data);
-      this.vols = await flightService.getAllFights(this.actualCurrency);
+      await this.bookFlight(data);
+      this.refreshFlight();
       this.incrementFlightComponent++;
       this.modalOfFlightOption = false;
       this.modalIncrement++;
@@ -130,13 +136,37 @@ export default {
     console.log(this.vols);
   },
   methods: {
-    dateClick() {
-      if (!this.datePicker) {
-        this.datePicker = new Date().toLocaleDateString();
-      }
+    async dateClick() {
+      this.refreshFlight();
       this.selectDate = true;
     },
-
+    async bookFlight(data) {
+      console.log("cc");
+      if (!this.datePicker) {
+        const bookFlight = { ...data, date: new Date().toLocaleDateString() };
+        await flightService.bookFlight(bookFlight);
+      } else {
+        const bookFlight = {
+          ...data,
+          date: new Date(this.datePicker).toLocaleDateString(),
+        };
+        await flightService.bookFlight(bookFlight);
+      }
+    },
+    async refreshFlight() {
+      if (!this.datePicker) {
+        let newdate = new Date().toLocaleDateString();
+        this.vols = await flightService.getAllFights(
+          this.actualCurrency,
+          newdate
+        );
+      } else {
+        this.vols = await flightService.getAllFights(
+          this.actualCurrency,
+          new Date(this.datePicker).toLocaleDateString()
+        );
+      }
+    },
     async refreshCurrency() {
       this.vols = await flightService.getAllFights(this.actualCurrency);
     },
