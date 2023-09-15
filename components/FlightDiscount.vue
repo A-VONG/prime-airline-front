@@ -12,34 +12,28 @@
             <th class="header-flights" id="Depart">Escale</th>
             <th class="header-flights" id="Arrival">Lieu d'arrivée</th>
             <th class="header-flights" id="Price">Price</th>
-            <th class="header-flights" id="Place">Place restant</th>
             <th class="header-flights" id="Discount">Promotion</th>
             <th class="header-flights" id="Buy">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="flightDiscount in discountFlight?.discounts"
+            v-for="(flightDiscount, index) in discountFlight?.discounts"
             :key="flightDiscount.id"
           >
             <td class="td-flight">
-              {{ flightDiscount.flight.airportDeparture }}
+              {{ vols[index].airportDeparture }}
             </td>
             <td class="td-flight">{{ flightDiscount.escale }}</td>
             <td class="td-flight">
-              {{ flightDiscount.flight.airportArrival }}
+              {{ vols[index].airportArrival }}
             </td>
             <td class="td-flight">
-              {{ flightDiscount.flight.price }} {{ actualCurrency }}
+              {{ flightDiscount.discountPrice }} {{ actualCurrency }}
             </td>
-            <td class="td-flight">{{ flightDiscount.flight.seats }}</td>
             <td class="td-flight">{{ flightDiscount.percent }} %</td>
             <td class="td-flight">
-              <v-btn
-                v-if="flightDiscount.flight.seats > 0"
-                variant="outlined"
-                @click="bookFlight(flightDiscount.flight.id, 'rathesh')"
-              >
+              <v-btn variant="outlined" @click="bookFlight(flightDiscount.id)">
                 Réserver
               </v-btn>
             </td>
@@ -87,9 +81,9 @@ export default {
       let useDate = new Date(date);
       return useDate.toLocaleDateString("fr");
     },
-    async bookFlight(id, user) {
+    async bookFlight(id) {
       const data = {
-        userId: user,
+        userId: this.$store.state?.account?.accountData.id,
         flightId: id,
       };
       this.$nuxt.$emit("BookFlight", true);

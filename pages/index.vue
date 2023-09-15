@@ -106,7 +106,13 @@ export default {
       finalDate
     );
     await flightService.getCurrencies().then((response) => {
-      this.currenciesList = response;
+      if (response) {
+        let listCurrencies = [];
+        response.forEach((currencie) => {
+          listCurrencies.push(currencie.currency);
+        });
+        this.currenciesList = listCurrencies;
+      }
     });
 
     this.$nuxt.$on("BookFlight", async (val) => {

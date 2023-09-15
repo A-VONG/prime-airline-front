@@ -5,7 +5,7 @@
         <div>
           <v-select
             label="Veuillez choisir la nourriture que vous souhaitez"
-            :items="optionModal.meals"
+            :items="meals"
           ></v-select>
         </div>
         <v-card-actions>
@@ -39,14 +39,29 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      modalData: false,
+    };
+  },
+  created() {
+    console.log(this.optionModal);
+  },
   computed: {
     showModal: {
       get() {
         return this.modal; // Getter pour récupérer la valeur de showModal
       },
       set(value) {
-        this.showModal = value; // Setter pour mettre à jour la valeur de showModal
+        this.modalData = value ?? false; // Setter pour mettre à jour la valeur de showModal
       },
+    },
+    meals() {
+      let arrayMeals = [];
+      this.optionModal.meals.forEach((meals) => {
+        if (meals.quantity > 0) arrayMeals.push(meals.name);
+      });
+      return arrayMeals;
     },
   },
   methods: {
