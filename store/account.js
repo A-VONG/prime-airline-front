@@ -1,9 +1,10 @@
 export const state = () => ({
-  account: null, // Initialisez l'username à null
+  accountData: null,
 });
 
 export const mutations = {
-  setAccount(state, account) {
-    state.account = account;
+  setAccount(state, accountData) {
+    state.accountData = accountData; //state
+    localStorage.setItem("accountData", JSON.stringify(accountData)); //local
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="modal" width="auto">
+    <v-dialog v-model="showModal" width="auto">
       <v-card v-if="optionModal.meals?.length > 0">
         <div>
           <v-select
@@ -39,10 +39,20 @@ export default {
       },
     },
   },
+  computed: {
+    showModal: {
+      get() {
+        return this.modal; // Getter pour récupérer la valeur de showModal
+      },
+      set(value) {
+        this.showModal = value; // Setter pour mettre à jour la valeur de showModal
+      },
+    },
+  },
   methods: {
     async confirmBook() {
       const data = {
-        userId: "Takoo",
+        userId: this.$store.account.accountData.id,
         flightId: this.optionModal.id,
       };
       this.$nuxt.$emit("BookFlightWithOption", "data", data);

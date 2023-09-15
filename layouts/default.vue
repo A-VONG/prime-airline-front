@@ -22,6 +22,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-btn @click="logout()"> Déconnexion</v-btn>
       <v-spacer />
     </v-app-bar>
     <v-main>
@@ -36,8 +37,13 @@
 </template>
 
 <script>
+import { flightService } from "@/core/api/indexService";
+
 export default {
   name: "DefaultLayout",
+  components: {
+    flightService,
+  },
   data() {
     return {
       drawer: false,
@@ -58,6 +64,13 @@ export default {
       right: true,
       title: "Prime Airline - Flight company",
     };
+  },
+  methods: {
+    async logout() {
+      await flightService.logout();
+      this.$store.commit("account/setAccount", null);
+      localStorage.removeItem("accountData");
+    },
   },
 };
 </script>

@@ -16,14 +16,16 @@
 <script>
 import Inscription from "@/components/Inscription.vue";
 import Connexion from "@/components/Connexion.vue";
+import { flightService } from "@/core/api/indexService";
 
 export default {
   name: "login",
   components: {
     Inscription,
+    Connexion,
+    flightService
   },
-  
-  created() {
+   created() {
     this.$nuxt.$on("getBack", (val) => {
       if (val === "signin") {
         this.signin = false;
@@ -31,6 +33,15 @@ export default {
         this.login = false;
       }
     });
+  },
+  mounted () {
+    if (process.client) {
+      const savedAccountData = localStorage.getItem("accountData");
+      if (savedAccountData) {
+        this.$store.commit("account/setAccount", savedAccountData);
+        this.$router.push("/");
+      }
+    };
   },
   data() {
     return {

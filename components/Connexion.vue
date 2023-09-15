@@ -32,16 +32,13 @@ export default {
         email: this.email.toLowerCase(),
         password: this.password,
       };
-
-      await flightService
-        .loginAccount(account)
-        .then((val) => {
-          this.$store.commit("account/setAccount", val);
-          this.$router.push("/");
-        })
-        .catch((e) => {
-          console.error(e.message);
-        });
+      await flightService.loginAccount(account).catch((e) => {
+        console.error(e.message);
+      });
+      await flightService.getAccount().then((getAccount) => {
+        this.$store.commit("account/setAccount", getAccount);
+        this.$router.push("/");
+      });
     },
   },
 };
