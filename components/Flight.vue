@@ -26,8 +26,10 @@
             <td class="td-flight">{{ item.seats }}</td>
             <td class="td-flight">
               <v-btn
-                v-if="item.seats > 0"
+                class="btnStyle"
                 variant="outlined"
+                elevation="4"
+                v-if="item.seats > 0"
                 @click="bookFlight(index)"
               >
                 Réserver
@@ -35,7 +37,9 @@
             </td>
             <td class="td-flight">
               <v-btn
+                class="btnStyle"
                 variant="outlined"
+                elevation="4"
                 v-if="item.discounts.length > 0"
                 @click="clickShowPromotion(index)"
               >
@@ -46,7 +50,12 @@
         </tbody>
       </table>
     </v-card>
-    <v-btn class="btnfullWidth" @click="selectAnotherDate">
+    <v-btn
+      class="btnStyle btnfullWidth"
+      variant="outlined"
+      elevation="4"
+      @click="selectAnotherDate"
+    >
       Selectionner une autre date
     </v-btn>
   </div>

@@ -12,9 +12,19 @@
       type="password"
       :rules="rulesPassword"
     ></v-text-field>
-
-    <v-btn @click="signin()">Inscription</v-btn>
-    <v-btn @click="getBack()"> Retour </v-btn>
+    <div class="block-signin">
+      <v-btn class="btnStyle" variant="outlined" elevation="4" @click="signin()"
+        >Inscription</v-btn
+      >
+      <v-btn
+        class="btnStyle"
+        variant="outlined"
+        elevation="4"
+        @click="getBack()"
+      >
+        Retour
+      </v-btn>
+    </div>
   </div>
 </template>
 <script>
@@ -58,3 +68,14 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.block-signin {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  .btnStyle {
+    margin-bottom: 1%;
+  }
+}
+</style>

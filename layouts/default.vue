@@ -21,8 +21,15 @@
     <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
-      <v-btn class="logout" @click="logout()"> Déconnexion</v-btn>
+      <v-toolbar-title class="title">{{ title }}</v-toolbar-title>
+      <v-btn
+        class="btnStyle logout"
+        variant="outlined"
+        elevation="4"
+        @click="logout()"
+      >
+        Déconnexion</v-btn
+      >
       <v-spacer />
     </v-app-bar>
     <v-main>
@@ -59,6 +66,11 @@ export default {
           title: "Reservations",
           to: "/reservation",
         },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Status",
+          to: "/status",
+        },
       ],
       miniVariant: false,
       right: true,
@@ -76,7 +88,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.title {
+  min-width: 30%;
+  margin-left: 38%;
+}
 .logout {
-  margin-left: 65%;
+  margin-left: 20%;
 }
 </style>

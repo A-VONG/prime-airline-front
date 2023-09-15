@@ -33,7 +33,12 @@
             </td>
             <td class="td-flight">{{ flightDiscount.percent }} %</td>
             <td class="td-flight">
-              <v-btn variant="outlined" @click="bookFlight(flightDiscount.id)">
+              <v-btn
+                class="btnStyle btnfullWidth"
+                variant="outlined"
+                elevation="4"
+                @click="bookFlight(flightDiscount.id)"
+              >
                 Réserver
               </v-btn>
             </td>

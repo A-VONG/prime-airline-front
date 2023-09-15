@@ -30,11 +30,17 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     "@nuxtjs/vuetify",
+    "@nuxtjs/style-resources",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
-
+  styleResources: {
+    scss: ["@/scss/main.scss"], // Chemin vers votre fichier SCSS principal
+  },
+  css: [
+    "@/assets/main.scss", // Chemin vers votre fichier SCSS principal
+  ],
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ["~/assets/variables.scss"],

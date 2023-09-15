@@ -4,9 +4,9 @@
       <p>
         <Inscription v-if="signin" />
         <Connexion v-if="login" />
-        <div v-if="!signin && !login">
-            <v-btn @click="signin = !signin"> signin </v-btn>
-            <v-btn @click="login = !login"> login </v-btn>
+        <div class="block-login" v-if="!signin && !login">
+            <v-btn class="btnStyle login" variant="outlined" elevation="4"  @click="login = !login"> login </v-btn>
+            <v-btn class="btnStyle" variant="outlined" elevation="4" @click="signin = !signin"> signin </v-btn>
         </div>
       </p>
     </v-col>
@@ -51,3 +51,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.block-login{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+.login{
+    margin-bottom: 10px;
+
+}
+</style>

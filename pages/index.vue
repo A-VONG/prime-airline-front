@@ -14,7 +14,14 @@
             :min="minDate"
             header="Veuillez choisir votre date"
           ></v-date-picker>
-          <v-btn @click="dateClick()"> Je choisi cette date</v-btn>
+          <v-btn
+            class="btnStyle"
+            variant="outlined"
+            elevation="4"
+            @click="dateClick()"
+          >
+            Je choisi cette date</v-btn
+          >
         </v-form>
       </div>
       <v-row
@@ -25,6 +32,7 @@
       >
         <v-col>
           <v-select
+            color="secondary"
             class="currenciesSelect"
             label="Selectionnez votre devise"
             :items="currenciesList"

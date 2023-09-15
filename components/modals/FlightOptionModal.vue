@@ -4,19 +4,31 @@
       <v-card v-if="optionModal.meals?.length > 0">
         <div>
           <v-select
+            color="secondary"
             label="Veuillez choisir la nourriture que vous souhaitez"
             :items="meals"
           ></v-select>
         </div>
         <v-card-actions>
-          <v-btn color="primary" block @click="confirmBook()"
+          <v-btn
+            class="btnStyle"
+            variant="outlined"
+            elevation="4"
+            color="secondary"
+            block
+            @click="confirmBook()"
             >Validé la commande</v-btn
           >
         </v-card-actions>
       </v-card>
       <v-card v-else>
         Vous n'avez pas de nourriture à bord
-        <v-btn color="primary" block @click="confirmBook()"
+        <v-btn
+          class="btnStyle"
+          variant="outlined"
+          elevation="4"
+          block
+          @click="confirmBook()"
           >Validé la commande</v-btn
         >
       </v-card>
