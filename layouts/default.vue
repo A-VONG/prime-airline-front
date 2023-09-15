@@ -70,6 +70,7 @@ export default {
       await flightService.logout();
       this.$store.commit("account/setAccount", null);
       localStorage.removeItem("accountData");
+      this.$router.push("/login");
     },
   },
 };

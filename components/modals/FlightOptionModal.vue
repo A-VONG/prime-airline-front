@@ -51,8 +51,9 @@ export default {
   },
   methods: {
     async confirmBook() {
+      console.log(this.$store.state?.account?.accountData);
       const data = {
-        userId: this.$store.account.accountData.id,
+        userId: this.$store.state?.account?.accountData.id,
         flightId: this.optionModal.id,
       };
       this.$nuxt.$emit("BookFlightWithOption", "data", data);

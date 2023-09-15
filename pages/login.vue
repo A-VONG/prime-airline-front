@@ -38,7 +38,7 @@ export default {
     if (process.client) {
       const savedAccountData = localStorage.getItem("accountData");
       if (savedAccountData) {
-        this.$store.commit("account/setAccount", savedAccountData);
+        this.$store.commit("account/setAccount", JSON.parse(savedAccountData));
         this.$router.push("/");
       }
     };
