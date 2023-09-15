@@ -22,7 +22,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title>{{ title }}</v-toolbar-title>
-      <v-btn @click="logout()"> Déconnexion</v-btn>
+      <v-btn class="logout" @click="logout()"> Déconnexion</v-btn>
       <v-spacer />
     </v-app-bar>
     <v-main>
@@ -75,3 +75,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.logout {
+  margin-left: 65%;
+}
+</style>
