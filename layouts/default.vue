@@ -27,14 +27,18 @@
           alt="Logo with no title"
           width="50"
           height="50"
-          style="margin-right : 5px"
+          style="margin-right: 5px"
         />
-          {{ title }}
-        </v-toolbar-title>
-        
-        <div class="userData">utilisateur : {{ this.$store?.state?.account?.accountData?.name ?? "" }}</div>
-        
-      
+        {{ title }}
+      </v-toolbar-title>
+
+      <div
+        class="userData"
+        v-if="this.$store.state?.account?.accountData?.name"
+      >
+        {{ this.$store.state.account.accountData.name }}
+      </div>
+
       <v-btn
         class="btnStyle logout"
         variant="outlined"
@@ -111,7 +115,7 @@ export default {
 .logout {
   //margin-left: 20%;
 }
-.userData{
+.userData {
   margin-right: 5%;
 }
 </style>
