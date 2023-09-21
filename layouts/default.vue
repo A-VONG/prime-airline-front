@@ -21,7 +21,20 @@
     <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-toolbar-title class="title">{{ title }}</v-toolbar-title>
+      <v-toolbar-title class="title">
+        <img
+          src="/prime-logo-no-title.png"
+          alt="Logo with no title"
+          width="50"
+          height="50"
+          style="margin-right : 5px"
+        />
+          {{ title }}
+        </v-toolbar-title>
+        
+        <div class="userData">utilisateur : {{ this.$store?.state?.account?.accountData?.name ?? "" }}</div>
+        
+      
       <v-btn
         class="btnStyle logout"
         variant="outlined"
@@ -31,7 +44,6 @@
       >
         Déconnexion</v-btn
       >
-      <v-spacer />
     </v-app-bar>
     <v-main>
       <v-container>
@@ -75,7 +87,7 @@ export default {
       ],
       miniVariant: false,
       right: true,
-      title: "Prime Airline - Flight company",
+      title: "Prime Airline",
     };
   },
   methods: {
@@ -90,10 +102,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 .title {
-  min-width: 30%;
-  margin-left: 38%;
+  margin-left: 40%;
+  margin-right: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logout {
-  margin-left: 20%;
+  //margin-left: 20%;
+}
+.userData{
+  margin-right: 5%;
 }
 </style>

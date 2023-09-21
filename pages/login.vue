@@ -1,6 +1,12 @@
 <template>
   <v-row>
     <v-col class="text-center">
+      <img
+          src="/prime-logo.png"
+          alt="Logo with no title"
+          width="250"
+          height="250"
+        />
       <p>
         <Inscription v-if="signin" />
         <Connexion v-if="login" />
@@ -56,11 +62,14 @@ export default {
 .block-login{
     display: flex;
     flex-direction: column;
-    height: 100%;
     justify-content: center;
+    align-items: center;
 }
 .login{
     margin-bottom: 10px;
 
+}
+ .btnStyle {
+  width: 50%;
 }
 </style>
