@@ -40,7 +40,7 @@
                 class="btnStyle"
                 variant="outlined"
                 elevation="4"
-                v-if="item.discounts.length > 0"
+                v-if="item?.discounts?.length > 0"
                 @click="clickShowPromotion(index)"
               >
                 Promotion

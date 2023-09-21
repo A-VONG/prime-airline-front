@@ -5,8 +5,8 @@
         <Inscription v-if="signin" />
         <Connexion v-if="login" />
         <div class="block-login" v-if="!signin && !login">
-            <v-btn class="btnStyle login" variant="outlined" elevation="4"  @click="login = !login"> login </v-btn>
-            <v-btn class="btnStyle" variant="outlined" elevation="4" @click="signin = !signin"> signin </v-btn>
+            <v-btn class="btnStyle login" variant="outlined" elevation="4"  @click="login = !login"> Connexion </v-btn>
+            <v-btn class="btnStyle" variant="outlined" elevation="4" @click="signin = !signin"> Inscription </v-btn>
         </div>
       </p>
     </v-col>

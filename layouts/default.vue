@@ -27,6 +27,7 @@
         variant="outlined"
         elevation="4"
         @click="logout()"
+        v-if="this.$store.state?.account?.accountData?.id"
       >
         Déconnexion</v-btn
       >

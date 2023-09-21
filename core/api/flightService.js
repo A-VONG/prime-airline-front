@@ -17,7 +17,7 @@ let bookFlight = (data) => {
 };
 
 let getCurrencies = () => {
-  return Axios.get("/currencies")
+  return Axios.get("/flights/currencies")
     .then((res) => {
       return res.data;
     })
@@ -56,6 +56,14 @@ let logout = () => {
     .catch((err) => console.log(err));
 };
 
+let history = () => {
+  return Axios.get("/booking-history")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
+
 export const flightService = {
   getAllFights,
   bookFlight,
@@ -64,4 +72,5 @@ export const flightService = {
   loginAccount,
   getAccount,
   logout,
+  history,
 };

@@ -1,15 +1,28 @@
 <template>
   <div>
+    <v-snackbar :timeout="2000" v-model="empty" color="red" multi-line>
+      Les champs sont vide.
+    </v-snackbar>
+    <v-snackbar
+      :timeout="2000"
+      v-model="wrongCredential"
+      color="red"
+      multi-line
+    >
+      Les informations sont pas valide.
+    </v-snackbar>
     <v-text-field
       color="orange"
       v-model="email"
       placeholder="Email"
+      @keyup.enter="login()"
     ></v-text-field>
     <v-text-field
       color="orange"
       v-model="password"
       placeholder="Password"
       type="password"
+      @keyup.enter="login()"
     ></v-text-field>
     <div class="blockBtn">
       <v-btn class="btnStyle" variant="outlined" elevation="4" @click="login()"
@@ -37,6 +50,8 @@ export default {
   data: () => ({
     email: null,
     password: null,
+    wrongCredential: false,
+    empty: false,
   }),
   methods: {
     getBack() {
@@ -49,12 +64,21 @@ export default {
           password: this.password,
         };
         await flightService.loginAccount(account).catch((e) => {
-          console.error(e.message);
+          this.wrongCredential = true;
+          return;
         });
-        await flightService.getAccount().then((getAccount) => {
-          this.$store.commit("account/setAccount", getAccount);
-          this.$router.push("/");
-        });
+        await flightService
+          .getAccount()
+          .then((getAccount) => {
+            this.$store.commit("account/setAccount", getAccount);
+            this.$router.push("/");
+          })
+          .catch((err) => {
+            this.$store.commit("account/setAccount", null);
+            localStorage.removeItem("accountData");
+          });
+      } else {
+        this.empty = true;
       }
     },
   },
