@@ -217,6 +217,7 @@ th {
   width: 400px;
 }
 .spaceDatePicker {
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   flex-direction: column;

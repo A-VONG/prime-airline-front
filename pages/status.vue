@@ -2,16 +2,16 @@
   <v-row>
     <v-col class="text-center">
       <p :class="this.api1 ? 'greenApi' : 'redApi'">
-        Fonctionnement de l'api numéro 1 {{ this.api1 ?? "No OK" }}
+        Data access service is : {{ this.api1 ? "Up" : "Down" }}
       </p>
       <p :class="this.api2 ? 'greenApi' : 'redApi'">
-        Fonctionnement de l'api numéro 2 {{ this.api2 ?? "No OK" }}
+        Flight service is : {{ this.api2 ? "Up" : "Down" }}
       </p>
       <p :class="this.api3 ? 'greenApi' : 'redApi'">
-        Fonctionnement de l'api numéro 3 {{ this.api3 ?? "No OK" }}
+        Booking service is : {{ this.api3 ? "Up" : "Down" }}
       </p>
       <p :class="this.api4 ? 'greenApi' : 'redApi'">
-        Fonctionnement de l'api numéro 4 {{ this.api4 ?? "No OK" }}
+        FrontApi service is : {{ this.api4 ? "Up" : "Down" }}
       </p>
     </v-col>
   </v-row>

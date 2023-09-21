@@ -70,17 +70,17 @@ export default {
       fixed: false,
       items: [
         {
-          icon: "mdi-apps",
+          icon: "mdi-calendar",
           title: "Liste des vols",
           to: "/",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-airplane",
           title: "Reservations",
           to: "/reservation",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-access-point",
           title: "Status",
           to: "/status",
         },
