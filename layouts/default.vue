@@ -50,7 +50,7 @@
       >
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container class="container">
         <Nuxt />
       </v-container>
     </v-main>
@@ -117,5 +117,12 @@ export default {
 }
 .userData {
   margin-right: 5%;
+}
+.container{
+  margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 </style>

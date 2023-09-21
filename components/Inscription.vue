@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="input-div">
     <v-snackbar :timeout="2000" color="red" v-model="empty" multi-line>
       Des champs sont vide.
     </v-snackbar>
     <v-text-field
       color="secondary"
       v-model="username"
-      placeholder="Username"
+      placeholder="Nom d'utilisateur"
       @keyup.enter="signin()"
     ></v-text-field>
     <v-text-field
@@ -19,7 +19,7 @@
     <v-text-field
       color="secondary"
       v-model="password"
-      placeholder="Password"
+      placeholder="Mot de passe"
       type="password"
       :rules="rulesPassword"
       @keyup.enter="signin()"
@@ -87,12 +87,19 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block-signin {
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: center;
+    align-items: center;
   .btnStyle {
     margin-bottom: 1%;
+    width: 50%;
   }
+}
+
+.input-div{
+  margin-left: 50px;
+  margin-right: 50px;
 }
 </style>

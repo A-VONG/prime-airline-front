@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="input-div">
     <v-snackbar :timeout="2000" v-model="empty" color="red" multi-line>
       Les champs sont vide.
     </v-snackbar>
@@ -20,7 +20,7 @@
     <v-text-field
       color="orange"
       v-model="password"
-      placeholder="Password"
+      placeholder="Mot de passe"
       type="password"
       @keyup.enter="login()"
     ></v-text-field>
@@ -86,10 +86,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .blockBtn {
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+    align-items: center;
   .btnStyle {
     margin-bottom: 1%;
+    width: 50%;
   }
 }
+
+.input-div{
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
 </style>

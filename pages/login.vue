@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <div class="main">
     <v-col class="text-center">
       <img
           src="/prime-logo.png"
@@ -16,7 +16,7 @@
         </div>
       </p>
     </v-col>
-  </v-row>
+  </div>
 </template>
 
 <script>
@@ -71,5 +71,13 @@ export default {
 }
  .btnStyle {
   width: 50%;
+}
+.main{
+  display: flex;
+    flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    background-color: rgb(32, 30, 30);
+    width: 50%;
 }
 </style>
