@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="increment">
     <v-card v-if="historyBook?.length > 0">
       <v-card-title class="headline">
         Voici l'historique de vos commandes
@@ -11,31 +11,27 @@
             <th class="header-flights" id="Depart">Lieu de départ</th>
             <th class="header-flights" id="Arrival">Lieu d'arrivée</th>
             <th class="header-flights" id="Price">Price</th>
-            <th class="header-flights" id="Price">Date</th>
+            <th class="header-flights" id="Cancel">Annuler</th>
+            <th class="header-flights" id="Date">Date</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(history, index) in historyBook" :key="history.id">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <td class="td-flight"
-                  v-bind="attrs" v-on="on">{{ history.flight.airportDeparture.code }}
-                </td>
-              </template>
-              <span>{{ history.flight.airportDeparture.name }}</span>
-            </v-tooltip>
-
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <td class="td-flight"
-                  v-bind="attrs" v-on="on">{{ history.flight.airportArrival.code }}
-                </td>
-              </template>
-              <span>{{ history.flight.airportArrival.name }}</span>
-            </v-tooltip>
-
+            <td class="td-flight">
+              {{ history.flight.airportDeparture.name }} [
+              {{ history.flight.airportDeparture.code }} ]
+            </td>
+            <td class="td-flight">
+              {{ history.flight.airportArrival.name }} [
+              {{ history.flight.airportArrival.code }} ]
+            </td>
             <td class="td-flight">{{ history.flight.price }} $</td>
             <td class="td-flight">{{ history.date }}</td>
+            <div>
+              <v-btn class="btnfullWidth" @click="cancelFlight(index)">
+                Annulez le vol</v-btn
+              >
+            </div>
           </tr>
         </tbody>
       </table>
@@ -60,10 +56,11 @@ export default {
   data() {
     return {
       historyBook: null,
+      increment: 0,
     };
   },
   async mounted() {
-    let userId = this.$store.state.account.accountData.id;
+    const userId = this.$store.state.account.accountData.id;
     await flightService
       .history(userId)
       .then((history) => {
@@ -76,6 +73,23 @@ export default {
   methods: {
     getBack() {
       this.$router.push("/");
+    },
+    async cancelFlight(index) {
+      const bookingId = this.historyBook[index].bookingId;
+      let dataBooking = {
+        bookingId,
+      };
+      await flightService.cancelBook(dataBooking);
+      const userId = this.$store.state.account.accountData.id;
+      await flightService
+        .history(userId)
+        .then((history) => {
+          this.historyBook = history;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      this.increment++;
     },
   },
 };
