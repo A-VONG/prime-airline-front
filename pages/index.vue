@@ -162,10 +162,12 @@ export default {
     });
     this.$nuxt.$on("BookFlightWithOption", async (food, data) => {
       await this.bookFlight(data);
-      this.refreshFlight();
-      this.incrementFlightComponent++;
-      this.modalOfFlightOption = false;
-      this.modalIncrement++;
+      this.refreshFlight().then(()=> {
+        this.incrementFlightComponent++;
+        this.modalOfFlightOption = false;
+        this.modalIncrement++;
+      });
+  
     });
     this.$nuxt.$on("getBack", () => {
       this.showPromotion = false;
