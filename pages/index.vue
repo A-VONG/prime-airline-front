@@ -61,6 +61,22 @@
           />
         </v-col>
       </v-row>
+      <v-snackbar
+            :timeout="2000"
+            v-model="bookingSuccess"
+            color="success"
+            multi-line
+          >
+            Réservation effectuée avec succès
+          </v-snackbar>
+          <v-snackbar
+            :timeout="2000"
+            v-model="bookingError"
+            color="red"
+            multi-line
+          >
+            La réservation a échouée
+          </v-snackbar>
     </div>
     <div v-else>
       <div class="divContainerErreur">
@@ -106,6 +122,8 @@ export default {
       modalIncrement: 1,
       modalOfIndexFlight: 0,
       flightDiscount: null,
+      bookingSuccess: false,
+      bookingError: false,
     };
   },
   async mounted() {
@@ -161,13 +179,25 @@ export default {
     async bookFlight(data) {
       if (!this.datePicker) {
         const bookFlight = { ...data, date: new Date().toLocaleDateString() };
-        await flightService.bookFlight(bookFlight);
+        await flightService.bookFlight(bookFlight).then((response)=>{
+            this.bookingSuccess = true;
+        }).catch((error) => {
+              if(error){
+                this.bookingError = true;
+              }
+        });
       } else {
         const bookFlight = {
           ...data,
           date: new Date(this.datePicker).toLocaleDateString(),
         };
-        await flightService.bookFlight(bookFlight);
+        await flightService.bookFlight(bookFlight).then((response)=>{
+            this.bookingSuccess = true;
+        }).catch((error) => {
+              if(error){
+                this.bookingError = true;
+              }
+        });
       }
     },
     async refreshFlight() {
@@ -185,7 +215,7 @@ export default {
       }
     },
     async refreshCurrency() {
-      this.vols = await flightService.getAllFights(this.actualCurrency);
+      this.vols = await flightService.getAllFights(this.actualCurrency, this.datePicker? new Date(this.datePicker).toLocaleDateString() : new Date().toLocaleDateString());
     },
   },
 };

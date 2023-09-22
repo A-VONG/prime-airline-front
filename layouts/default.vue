@@ -21,7 +21,7 @@
     <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-toolbar-title class="title">
+      <v-toolbar-title class="title" @click="$router.push('/')">
         <img
           src="/prime-logo-no-title.png"
           alt="Logo with no title"
@@ -111,6 +111,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .logout {
   //margin-left: 20%;
