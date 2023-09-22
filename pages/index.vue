@@ -4,7 +4,9 @@
       <FlightOptionModal
         :key="modalIncrement"
         :optionModal="vols[modalOfIndexFlight]"
+        :indexOfFlightDiscount="flightDiscount"
         :modal="modalOfFlightOption"
+        v-if="modalOfFlightOption"
       />
       <div v-if="!selectDate">
         <v-form class="spaceDatePicker">
@@ -103,6 +105,7 @@ export default {
       modalOfFlightOption: false,
       modalIncrement: 1,
       modalOfIndexFlight: 0,
+      flightDiscount: null,
     };
   },
   async mounted() {
@@ -123,11 +126,12 @@ export default {
       }
     });
 
-    this.$nuxt.$on("BookFlight", async (val) => {
-      this.incrementFlightComponent++;
-      this.modalOfFlightOption = true;
+    this.$nuxt.$on("BookFlight", async (val, discountIndex) => {
+      this.flightDiscount = discountIndex;
       this.modalOfIndexFlight = val;
+      this.incrementFlightComponent++;
       this.modalIncrement++;
+      this.modalOfFlightOption = true;
     });
     this.$nuxt.$on("FlightDiscount", async (indexOfFlightdiscount) => {
       this.showPromotion = true;
@@ -148,7 +152,6 @@ export default {
     this.$nuxt.$on("getBack", () => {
       this.showPromotion = false;
     });
-    console.log(this.vols);
   },
   methods: {
     async dateClick() {

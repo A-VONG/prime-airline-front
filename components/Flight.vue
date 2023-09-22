@@ -78,9 +78,6 @@ export default {
       default: "USD",
     },
   },
-  created() {
-    console.log(this.vols);
-  },
   methods: {
     dateTraitement(date) {
       if (!date) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog v-model="showModal" width="auto">
-      <v-card v-if="optionModal.meals?.length > 0">
+      <v-card v-if="meals?.length">
         <div>
           <v-select
             color="secondary"
@@ -50,14 +50,15 @@ export default {
         return {};
       },
     },
+    indexOfFlightDiscount: {
+      type: Number,
+      default: null,
+    },
   },
   data() {
     return {
       modalData: false,
     };
-  },
-  created() {
-    console.log(this.optionModal);
   },
   computed: {
     showModal: {
@@ -70,20 +71,37 @@ export default {
     },
     meals() {
       let arrayMeals = [];
-      this.optionModal.meals.forEach((meals) => {
-        if (meals.quantity > 0) arrayMeals.push(meals.name);
-      });
-      return arrayMeals;
+      if (typeof this.indexOfFlightDiscount === "number") {
+        this.optionModal?.discounts[
+          this.indexOfFlightDiscount
+        ]?.flight.meals.forEach((meals) => {
+          if (meals.quantity > 0) arrayMeals.push(meals.name);
+        });
+        return arrayMeals;
+      } else {
+        this.optionModal.meals.forEach((meals) => {
+          if (meals.quantity > 0) arrayMeals.push(meals.name);
+        });
+        return arrayMeals;
+      }
     },
   },
   methods: {
     async confirmBook() {
-      console.log(this.$store.state?.account?.accountData);
-      const data = {
-        userId: this.$store.state?.account?.accountData.id,
-        flightId: this.optionModal.id,
-      };
-      this.$nuxt.$emit("BookFlightWithOption", "data", data);
+      if (typeof this.indexOfFlightDiscount === "number") {
+        const data = {
+          userId: this.$store.state?.account?.accountData.id,
+          flightId:
+            this.optionModal?.discounts[this.indexOfFlightDiscount]?.flight.id,
+        };
+        this.$nuxt.$emit("BookFlightWithOption", "data", data);
+      } else {
+        const data = {
+          userId: this.$store.state?.account?.accountData.id,
+          flightId: this.optionModal.id,
+        };
+        this.$nuxt.$emit("BookFlightWithOption", "data", data);
+      }
     },
   },
 };

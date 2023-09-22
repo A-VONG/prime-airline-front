@@ -13,6 +13,7 @@
             <th class="header-flights" id="Arrival">Lieu d'arrivée</th>
             <th class="header-flights" id="Price">Price</th>
             <th class="header-flights" id="Discount">Promotion</th>
+            <th class="header-flights" id="Discount">Place restant</th>
             <th class="header-flights" id="Buy">Action</th>
           </tr>
         </thead>
@@ -22,22 +23,23 @@
             :key="flightDiscount.id"
           >
             <td class="td-flight">
-              {{ vols[index].airportDeparture }}
+              {{ flightDiscount.flight.airportDeparture }}
             </td>
-            <td class="td-flight">{{ flightDiscount.escale }}</td>
+            <td class="td-flight">{{ flightDiscount.flight.escale }}</td>
             <td class="td-flight">
-              {{ vols[index].airportArrival }}
+              {{ flightDiscount.flight.airportArrival }}
             </td>
             <td class="td-flight">
               {{ flightDiscount.discountPrice }} {{ actualCurrency }}
             </td>
             <td class="td-flight">{{ flightDiscount.percent }} %</td>
+            <td class="td-flight">{{ flightDiscount.flight.seats }}</td>
             <td class="td-flight">
               <v-btn
                 class="btnStyle btnfullWidth"
                 variant="outlined"
                 elevation="4"
-                @click="bookFlight(flightDiscount.id)"
+                @click="bookFlight(flightDiscount.flight.id, index)"
               >
                 Réserver
               </v-btn>
@@ -86,13 +88,8 @@ export default {
       let useDate = new Date(date);
       return useDate.toLocaleDateString("fr");
     },
-    async bookFlight(id) {
-      const data = {
-        userId: this.$store.state?.account?.accountData.id,
-        flightId: id,
-      };
-      this.$nuxt.$emit("BookFlight", true);
-      this.books = await flightService.bookFlight(data);
+    async bookFlight(id, index) {
+      this.$nuxt.$emit("BookFlight", this.indexOfFlight, index);
     },
     clickShowPromotion() {
       this.showPromotion = true;
