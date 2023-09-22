@@ -19,14 +19,14 @@
             {{ new Date().toLocaleDateString("fr") }}
           </div>
           <v-timeline align-top dense>
-            <v-timeline-item small :color="this.api1 ? 'green' : 'red'">
+            <v-timeline-item small :color="this.api4 ? 'green' : 'red'">
               <div>
                 <div class="font-weight-normal">
-                  <strong>Le service d'accés aux données</strong>
+                  <strong>Le service d'accés aux api fronts</strong>
                 </div>
                 <div>
                   {{
-                    this.api1
+                    this.api4
                       ? "Pas de problème detecté"
                       : "Nous rencontrons un problème technique. Veuillez reéssayer utérieurement"
                   }}
@@ -50,7 +50,7 @@
             <v-timeline-item small :color="this.api3 ? 'green' : 'red'">
               <div>
                 <div class="font-weight-normal">
-                  <strong>Le service d'accés aux reséversions</strong>
+                  <strong>Le service d'accés aux réservations </strong>
                 </div>
                 <div>
                   {{
@@ -61,14 +61,14 @@
                 </div>
               </div>
             </v-timeline-item>
-            <v-timeline-item small :color="this.api4 ? 'green' : 'red'">
+            <v-timeline-item small :color="this.api1 ? 'green' : 'red'">
               <div>
                 <div class="font-weight-normal">
-                  <strong>Le service d'accés aux api fronts</strong>
+                  <strong>Le service d'accés aux données</strong>
                 </div>
                 <div>
                   {{
-                    this.api4
+                    this.api1
                       ? "Pas de problème detecté"
                       : "Nous rencontrons un problème technique. Veuillez reéssayer utérieurement"
                   }}
