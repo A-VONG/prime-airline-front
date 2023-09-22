@@ -20,8 +20,8 @@
         <tbody>
           <tr v-for="(item, index) in vols" :key="item.id">
             <td class="td-flight">{{ item.id }}</td>
-            <td class="td-flight">{{ item.airportDeparture }}</td>
-            <td class="td-flight">{{ item.airportArrival }}</td>
+            <td class="td-flight">{{ item.airportDeparture.code }}</td>
+            <td class="td-flight">{{ item.airportArrival.code }}</td>
             <td class="td-flight">{{ item.price }} {{ actualCurrency }}</td>
             <td class="td-flight">{{ item.seats }}</td>
             <td class="td-flight">

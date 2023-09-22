@@ -17,10 +17,10 @@
         <tbody>
           <tr v-for="(history, index) in historyBook" :key="history.id">
             <td class="td-flight">
-              {{ history.flight.airportDeparture }}
+              {{ history.flight.airportDeparture.name }} [  {{history.flight.airportDeparture.code}} ]
             </td>
             <td class="td-flight">
-              {{ history.flight.airportArrival }}
+              {{ history.flight.airportArrival.name }}  [  {{history.flight.airportArrival.code}} ]
             </td>
             <td class="td-flight">{{ history.flight.price }} $</td>
             <td class="td-flight">{{ history.date }}</td>
@@ -51,8 +51,9 @@ export default {
     };
   },
   async mounted() {
+    let userId = this.$store.state.account.accountData.id;
     await flightService
-      .history()
+      .history(userId)
       .then((history) => {
         this.historyBook = history;
       })

@@ -56,8 +56,8 @@ let logout = () => {
     .catch((err) => console.log(err));
 };
 
-let history = () => {
-  return Axios.get("/booking-history")
+let history = (userId) => {
+  return Axios.get("/booking-history?userId="+userId)
     .then((res) => {
       return res.data;
     })
