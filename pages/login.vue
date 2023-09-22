@@ -35,6 +35,7 @@ export default {
     this.$nuxt.$on("getBack", (val) => {
       if (val === "signin") {
         this.signin = false;
+        this.login = true;
       } else {
         this.login = false;
       }

@@ -56,6 +56,7 @@
             <td class="td-flight">{{ flightDiscount.flight.seats }}</td>
             <td class="td-flight">
               <v-btn
+                v-if="flightDiscount.flight.seats != 0"
                 class="btnStyle btnfullWidth"
                 variant="outlined"
                 elevation="4"

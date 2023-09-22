@@ -166,6 +166,7 @@ export default {
         this.incrementFlightComponent++;
         this.modalOfFlightOption = false;
         this.modalIncrement++;
+        this.$router.push('/reservation');
       });
   
     });
