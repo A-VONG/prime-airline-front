@@ -19,8 +19,8 @@
           <tr v-for="(history, index) in historyBook" :key="history.id">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <td class="td-flight"
-                  v-bind="attrs" v-on="on">{{ history.flight.airportDeparture.code }}
+                <td class="td-flight" v-bind="attrs" v-on="on">
+                  {{ history.flight.airportDeparture.code }}
                 </td>
               </template>
               <span>{{ history.flight.airportDeparture.name }}</span>
@@ -28,8 +28,8 @@
 
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <td class="td-flight"
-                  v-bind="attrs" v-on="on">{{ history.flight.airportArrival.code }}
+                <td class="td-flight" v-bind="attrs" v-on="on">
+                  {{ history.flight.airportArrival.code }}
                 </td>
               </template>
               <span>{{ history.flight.airportArrival.name }}</span>
@@ -37,11 +37,11 @@
 
             <td class="td-flight">{{ history.flight.price }} $</td>
             <td class="td-flight">{{ history.date }}</td>
-            <div>
+            <td>
               <v-btn class="btnfullWidth" @click="cancelFlight(index)">
                 Annulez le vol</v-btn
               >
-            </div>
+            </td>
           </tr>
         </tbody>
       </table>
