@@ -57,7 +57,16 @@ let logout = () => {
 };
 
 let history = (userId) => {
-  return Axios.get("/booking-history?userId="+userId)
+  return Axios.get("/booking-history?userId=" + userId)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
+
+let cancelBook = (idBook) => {
+  console.log(idBook);
+  return Axios.post("/cancel-book", idBook)
     .then((res) => {
       return res.data;
     })
@@ -73,4 +82,5 @@ export const flightService = {
   getAccount,
   logout,
   history,
+  cancelBook,
 };
