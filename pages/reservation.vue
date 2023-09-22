@@ -16,12 +16,24 @@
         </thead>
         <tbody>
           <tr v-for="(history, index) in historyBook" :key="history.id">
-            <td class="td-flight">
-              {{ history.flight.airportDeparture.name }} [  {{history.flight.airportDeparture.code}} ]
-            </td>
-            <td class="td-flight">
-              {{ history.flight.airportArrival.name }}  [  {{history.flight.airportArrival.code}} ]
-            </td>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ history.flight.airportDeparture.code }}
+                </td>
+              </template>
+              <span>{{ history.flight.airportDeparture.name }}</span>
+            </v-tooltip>
+
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ history.flight.airportArrival.code }}
+                </td>
+              </template>
+              <span>{{ history.flight.airportArrival.name }}</span>
+            </v-tooltip>
+
             <td class="td-flight">{{ history.flight.price }} $</td>
             <td class="td-flight">{{ history.date }}</td>
           </tr>

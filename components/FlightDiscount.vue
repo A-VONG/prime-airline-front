@@ -5,7 +5,7 @@
         La liste des promotions pour le {{ dateTraitement(datePicker) }}
       </v-card-title>
 
-      <table fixed-header height="300px" density="comfortable">
+      <table fixed-header height="auto" density="comfortable">
         <thead>
           <tr>
             <th class="header-flights" id="Depart">Lieu de départ</th>
@@ -22,13 +22,33 @@
             v-for="(flightDiscount, index) in discountFlight?.discounts"
             :key="flightDiscount.id"
           >
-            <td class="td-flight">
-              {{ flightDiscount.flight.airportDeparture }}
-            </td>
-            <td class="td-flight">{{ flightDiscount.flight.escale }}</td>
-            <td class="td-flight">
-              {{ flightDiscount.flight.airportArrival }}
-            </td>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ flightDiscount.flight.airportDeparture.code }}
+                </td>
+              </template>
+              <span>{{ flightDiscount.flight.airportDeparture.name }}</span>
+            </v-tooltip>
+
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ flightDiscount.flight.escale.code }}
+                </td>
+              </template>
+              <span>{{ flightDiscount.flight.escale.name }}</span>
+            </v-tooltip>
+
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ flightDiscount.flight.airportArrival.code }}
+                </td>
+              </template>
+              <span>{{ flightDiscount.flight.airportArrival.name }}</span>
+            </v-tooltip>
+
             <td class="td-flight">
               {{ flightDiscount.discountPrice }} {{ actualCurrency }}
             </td>

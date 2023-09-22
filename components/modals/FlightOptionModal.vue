@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-dialog v-model="showModal" width="auto">
-      <v-card v-if="meals?.length">
-        <div>
+    <v-dialog v-model="showModal" width="500px">
+      <v-card v-if="meals?.length" class="option-card">
+        <div style="heigth:350px">
           <v-select
             color="secondary"
             label="Veuillez choisir la nourriture que vous souhaitez"
@@ -14,22 +14,21 @@
             class="btnStyle"
             variant="outlined"
             elevation="4"
-            color="secondary"
             block
             @click="confirmBook()"
             >Validé la commande</v-btn
           >
         </v-card-actions>
       </v-card>
-      <v-card v-else>
-        Vous n'avez pas de nourriture à bord
+      <v-card v-else class="option-card">
+        <p>Vous n'avez pas de nourriture à bord</p>
         <v-btn
           class="btnStyle"
           variant="outlined"
           elevation="4"
           block
           @click="confirmBook()"
-          >Validé la commande</v-btn
+          >Validé la réservation</v-btn
         >
       </v-card>
     </v-dialog>
@@ -106,3 +105,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.option-card{
+  padding: 50px;
+}
+</style>

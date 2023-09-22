@@ -20,8 +20,25 @@
         <tbody>
           <tr v-for="(item, index) in vols" :key="item.id">
             <td class="td-flight">{{ item.id }}</td>
-            <td class="td-flight">{{ item.airportDeparture.code }}</td>
-            <td class="td-flight">{{ item.airportArrival.code }}</td>
+
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ item.airportDeparture.code }}
+                </td>
+              </template>
+              <span>{{ item.airportDeparture.name }}</span>
+            </v-tooltip>
+
+              <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <td class="td-flight"
+                  v-bind="attrs" v-on="on">{{ item.airportArrival.code }}
+                </td>
+              </template>
+              <span>{{ item.airportArrival.name }}</span>
+            </v-tooltip>
+
             <td class="td-flight">{{ item.price }} {{ actualCurrency }}</td>
             <td class="td-flight">{{ item.seats }}</td>
             <td class="td-flight">
@@ -96,6 +113,11 @@ export default {
     selectAnotherDate() {
       this.$nuxt.$emit("AnotherDate");
     },
+  },
+  data() {
+    return {
+      props: true,
+    };
   },
 };
 </script>
